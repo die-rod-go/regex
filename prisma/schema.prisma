@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Puzzle { 
+  id            String @id @default(cuid())
+  description   String
+  pattern       String
+  matched       String
+  dailyPuzzle   DailyPuzzle?
+  previewLength Int
+}
+
+model DailyPuzzle { 
+  id        String   @id @default(cuid())
+  date      DateTime @unique
+  puzzleId  String   @unique
+  puzzle    Puzzle   @relation(fields: [puzzleId], references: [id], onDelete: Cascade)
+}
