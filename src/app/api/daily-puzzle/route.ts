@@ -2,16 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/db";
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  //  Get today's date
+  //  get today's date
   const today = new Date().toISOString().split("T")[0];
 
-  //  Find daily puzzle id
+  //  find daily puzzle id
   const dailyPuzzleEntry = await prisma.dailyPuzzle.findFirst({
     where: { date: new Date(today) },
   });
 
   console.log(dailyPuzzleEntry);
 
+  //  if not found
   if (!dailyPuzzleEntry) {
     return Response.json(
       { error: "No puzzle found for today." },
@@ -19,11 +20,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
     );
   }
 
-  //  Get puzzle details based off id
+  //  get puzzle details based off id
   const puzzle = await prisma.puzzle.findFirst({
     where: { id: dailyPuzzleEntry.puzzleId },
   });
 
+  //  if not found
   if (!puzzle) {
     return Response.json(
       { error: "Specified puzzle not found" },

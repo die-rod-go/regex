@@ -13,10 +13,9 @@ datasource db {
 model Puzzle { 
   id            String @id @default(cuid())
   description   String
-  pattern       String
-  matched       String
+  sample        String
   dailyPuzzle   DailyPuzzle?
-  previewLength Int
+  testCases     TestCase[]
 }
 
 model DailyPuzzle { 
@@ -24,4 +23,12 @@ model DailyPuzzle {
   date      DateTime @unique
   puzzleId  String   @unique
   puzzle    Puzzle   @relation(fields: [puzzleId], references: [id], onDelete: Cascade)
+}
+
+model TestCase {
+  id           String @id @default(cuid())
+  targetString String
+  matches      Json
+  puzzleId     String
+  puzzle       Puzzle   @relation(fields: [puzzleId], references: [id], onDelete: Cascade)
 }
