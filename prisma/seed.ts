@@ -234,9 +234,10 @@ async function main() {
     },
   });
 
-  // Set today's daily puzzle (2/10/25)
-  await prisma.dailyPuzzle.create({
-    data: {
+  await prisma.dailyPuzzle.upsert({
+    where: { date: new Date("2025-02-11") },
+    update: {},
+    create: {
       date: new Date("2025-02-11"),
       puzzleId: puzzle1.id,
     },
