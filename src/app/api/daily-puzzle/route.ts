@@ -31,5 +31,5 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  return Response.json(puzzle);
+  return Response.json({ browseType: "daily", ...puzzle });
 }

@@ -33,6 +33,7 @@ export default function Home() {
   function fetchRandomPuzzle() {
     setResponse(null);
     setSolution("");
+    setPuzzle(null);
     const fetchPuzzle = async () => {
       try {
         const res = await fetch("/api/puzzle/random");
@@ -92,7 +93,11 @@ export default function Home() {
       {puzzle ? (
         <>
           <h1 className="text-3xl font-bold text-blue-600 mb-6">
-            Today's Puzzle
+            {puzzle.browseType === "daily"
+              ? `Today's Puzzle`
+              : puzzle.browseType === "random"
+              ? "Random Puzzle"
+              : "Regexpert"}
           </h1>
           <div
             className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full transition-all duration-300 ease-in-out"
@@ -126,7 +131,7 @@ export default function Home() {
               </button>
             </form>
 
-            {response && (
+            {response && response?.results && (
               <div className="mt-6">
                 <Results results={response.results} regexString={solution} />
               </div>
