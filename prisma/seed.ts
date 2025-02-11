@@ -247,7 +247,7 @@ async function main() {
     where: { date: new Date("2025-02-12") },
     update: {},
     create: {
-      date: new Date("2025-02-11"),
+      date: new Date("2025-02-12"),
       puzzleId: puzzle11.id,
     },
   });
@@ -256,7 +256,7 @@ async function main() {
     where: { date: new Date("2025-02-13") },
     update: {},
     create: {
-      date: new Date("2025-02-11"),
+      date: new Date("2025-02-13"),
       puzzleId: puzzle2.id,
     },
   });
@@ -265,7 +265,7 @@ async function main() {
     where: { date: new Date("2025-02-14") },
     update: {},
     create: {
-      date: new Date("2025-02-11"),
+      date: new Date("2025-02-14"),
       puzzleId: puzzle12.id,
     },
   });
