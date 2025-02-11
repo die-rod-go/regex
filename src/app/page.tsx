@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import HighlightedText from "./components/highlighted_text";
+import Results from "./components/results";
 
 export default function Home() {
   const [puzzle, setPuzzle] = useState<any>(null);
@@ -61,7 +63,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-24">
       {error && <p className="text-red-600 mb-4">{`Error: ${error}`}</p>}
       {/* if puzzle exists */}
       {puzzle ? (
@@ -74,18 +76,18 @@ export default function Home() {
               {puzzle.description}
             </h2>
             <pre className="bg-gray-200 p-4 rounded-md mb-4 overflow-x-auto">
-              {puzzle.sample}
+              <HighlightedText text={puzzle.sample} regexString={solution} />
             </pre>
 
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="text-gray-700 font-mono mb-2">
+                <label className="text-gray-700 font-semibold mb-2">
                   Your Solution:
                   <input
                     type="text"
                     value={solution}
                     onChange={(e) => setSolution(e.target.value)}
-                    className="mt-2 p-2 border-2 border-gray-300 rounded-md w-full"
+                    className="mt-2 p-2 border-2 border-gray-300 font-mono font-normal rounded-md w-full"
                     required
                   />
                 </label>
@@ -100,25 +102,13 @@ export default function Home() {
 
             {response && (
               <div className="mt-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                  Results
-                </h2>
-                <p
-                  className={`text-lg font-medium ${
-                    response.correct ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  Correct: {response.correct ? "Yes" : "No"}
-                </p>
-                <pre className="bg-gray-200 p-4 rounded-md overflow-x-auto mt-4">
-                  {JSON.stringify(response.results, null, 2)}
-                </pre>
+                <Results results={response.results} regexString={solution} />
               </div>
             )}
           </div>
         </>
       ) : (
-        <p className="text-gray-600 mt-4">Loading puzzle...</p>
+        <p className="text-gray-600 mt-60">Loading puzzle...</p>
       )}
     </div>
   );
