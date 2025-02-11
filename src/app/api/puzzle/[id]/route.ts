@@ -1,16 +1,18 @@
 import { prisma } from "@/app/lib/db";
+import { NextRequest } from "next/server";
 
-// GET /api/dataset/:id
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } | undefined }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const id = (await params).id;
+
   const puzzle = await prisma.puzzle.findUnique({
-    where: { id: params?.id },
+    where: { id },
     include: { testCases: true },
   });
 
-  //  if not found
+  // if not found
   if (!puzzle) {
     return Response.json(
       { error: "Specified puzzle not found" },

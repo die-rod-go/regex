@@ -34,7 +34,7 @@ export default function CongratsPopup({
         <p>
           Want another challenge? Try a{" "}
           <button
-            className="font-semibold"
+            className="font-semibold hover:text-blue-500"
             onClick={() => {
               onRandom();
               onClose();

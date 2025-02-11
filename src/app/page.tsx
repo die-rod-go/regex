@@ -32,6 +32,7 @@ export default function Home() {
 
   function fetchRandomPuzzle() {
     setResponse(null);
+    setSolution("");
     const fetchPuzzle = async () => {
       try {
         const res = await fetch("/api/puzzle/random");
@@ -53,7 +54,6 @@ export default function Home() {
     e.preventDefault();
     setError("");
     setResponse(null);
-    setSolution("");
 
     if (!puzzle) {
       setError("No puzzle available to submit a solution.");
