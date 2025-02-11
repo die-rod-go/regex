@@ -10,8 +10,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
     where: { date: new Date(today) },
   });
 
-  console.log(dailyPuzzleEntry);
-
   //  if not found
   if (!dailyPuzzleEntry) {
     return Response.json(

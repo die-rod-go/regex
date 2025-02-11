@@ -16,6 +16,7 @@ model Puzzle {
   sample        String
   dailyPuzzle   DailyPuzzle?
   testCases     TestCase[]
+  type          String
 }
 
 model DailyPuzzle { 

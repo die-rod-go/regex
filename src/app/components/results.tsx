@@ -5,8 +5,8 @@ import HighlightedText from "./highlighted_text";
 //  define the structure of a result object
 type Result = {
   targetString: string;
-  expectedMatches: string;
-  actualMatches: string;
+  expectedMatches: string[];
+  actualMatches: string[];
   correct: boolean;
 };
 
@@ -22,7 +22,7 @@ export default function Results({ results, regexString }: ResultsProps) {
   //    count the number of correct results
   let numCorrect = results.filter((result) => result.correct).length;
 
-  // function to handle page navigation
+  //    function to handle page navigation
   const goToPreviousPage = () => {
     if (page > 0) setPage(page - 1);
     else setPage(results.length - 1);
@@ -37,7 +37,7 @@ export default function Results({ results, regexString }: ResultsProps) {
     <div>
       {/* display the number of passed tests */}
       <h2 className="text-xl font-semibold text-gray-800 mb-2">
-        Results - Passed {numCorrect}/{results.length}
+        Passed {numCorrect}/{results.length}
       </h2>
 
       {/* navigation controls */}
@@ -48,23 +48,28 @@ export default function Results({ results, regexString }: ResultsProps) {
         >
           <ChevronLeftIcon className="w-6 h-6 text-gray-600" />
         </button>
-        {/* colored page circles with slight space between the border */}
+        {/* colored page circles */}
         {results.map((result, index) => (
           <button
             key={index}
             onClick={() => setPage(index)}
-            className={`relative w-4 h-4 rounded-full flex items-center justify-center focus:outline-none transition`}
+            className="relative w-4 h-4 rounded-full flex items-center justify-center focus:outline-none transition"
           >
+            {/* stupid nested ternary shit i hate react */}
             <span
               className={`absolute w-6 h-6 rounded-full border-2 transition ${
-                page === index ? "border-blue-500" : "border-transparent"
+                page === index
+                  ? result.correct
+                    ? "border-green-500"
+                    : "border-red-500"
+                  : "border-transparent"
               }`}
-            ></span>
+            />
             <span
               className={`w-4 h-4 rounded-full ${
                 result.correct ? "bg-green-500" : "bg-red-500"
               }`}
-            ></span>
+            />
           </button>
         ))}
         <button
@@ -77,9 +82,9 @@ export default function Results({ results, regexString }: ResultsProps) {
 
       {/* result display section */}
       <div className="flex space-x-4">
-        {/* target string section with highlighted text */}
+        {/* test case section with highlighted text */}
         <div className="p-4 rounded-lg bg-gray-100 w-1/2">
-          <h3 className="font-semibold">Target String</h3>
+          <h3 className="font-semibold text-sm">Test Case</h3>
           <HighlightedText
             className="font-mono"
             text={results[page].targetString}
@@ -89,14 +94,22 @@ export default function Results({ results, regexString }: ResultsProps) {
 
         {/* expected matches section */}
         <div className="p-4 rounded-lg bg-gray-100 w-1/4">
-          <h3 className="font-semibold">Expected</h3>
-          <p>{results[page].expectedMatches}</p>
+          <h3 className="font-semibold text-sm">Expected Matches</h3>
+          {results[page].expectedMatches.map((match, index) => (
+            <div className="font-mono" key={index}>
+              {match}
+            </div>
+          ))}
         </div>
 
         {/* actual matches section */}
         <div className="p-4 rounded-lg bg-gray-100 w-1/4">
-          <h3 className="font-semibold">Actual</h3>
-          <p>{results[page].actualMatches}</p>
+          <h3 className="font-semibold text-sm">Actual Matches</h3>
+          {results[page].actualMatches.map((match, index) => (
+            <div className="font-mono" key={index}>
+              {match}
+            </div>
+          ))}
         </div>
       </div>
     </div>

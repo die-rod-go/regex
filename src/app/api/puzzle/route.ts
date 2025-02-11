@@ -25,41 +25,61 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Puzzle not found" }, { status: 404 });
     }
 
-    // attempt to create a regex from the solution
-    let regex;
-    try {
-      regex = new RegExp(solution, "g");
-    } catch (error) {
-      return NextResponse.json(
-        { error: "Invalid regular expression" },
-        { status: 400 }
-      );
+    console.log(puzzle);
+
+    if (puzzle.type === "match") {
+      let regex;
+      // attempt to create a regex from the solution
+      try {
+        regex = new RegExp(solution, "g");
+      } catch (error) {
+        return NextResponse.json(
+          { error: "Invalid regular expression" },
+          { status: 400 }
+        );
+      }
+
+      // evaluate the regex against each test case
+      const results = puzzle.testCases.map((testCase) => {
+        //  convert from json to string then to array to appease typescript
+        const expectedMatches = JSON.parse(JSON.stringify(testCase.matches));
+        //  see what the user solution matches in the target string
+        const actualMatches = testCase.targetString.match(regex) || [];
+        return {
+          targetString: testCase.targetString,
+          expectedMatches,
+          actualMatches,
+          correct:
+            //  true if both match
+            JSON.stringify(expectedMatches.sort()) ===
+            JSON.stringify(actualMatches.sort()),
+        };
+      });
+
+      // determine if all test cases passed
+      const allCorrect = results.every((result) => result.correct);
+
+      return NextResponse.json({
+        correct: allCorrect,
+        results,
+      });
+    } else if (puzzle.type === "password") {
+      let regex;
+      try {
+        regex = new RegExp(puzzle.sample, "g");
+      } catch (error) {
+        return NextResponse.json(
+          { error: "Error with puzzle. Contact Diego" },
+          { status: 400 }
+        );
+      }
+
+      const match = solution.match(regex);
+      const correct = match && match[0] === solution;
+      return NextResponse.json({
+        correct: correct,
+      });
     }
-
-    // evaluate the regex against each test case
-    const results = puzzle.testCases.map((testCase) => {
-      //  convert from json to string then to array to appease typescript
-      const expectedMatches = JSON.parse(JSON.stringify(testCase.matches));
-      //  see what the user solution matches in the target string
-      const actualMatches = testCase.targetString.match(regex) || [];
-      return {
-        targetString: testCase.targetString,
-        expectedMatches,
-        actualMatches,
-        correct:
-          //  true if both match
-          JSON.stringify(expectedMatches.sort()) ===
-          JSON.stringify(actualMatches.sort()),
-      };
-    });
-
-    // determine if all test cases passed
-    const allCorrect = results.every((result) => result.correct);
-
-    return NextResponse.json({
-      correct: allCorrect,
-      results,
-    });
   } catch (error) {
     console.error("Internal server error:", error);
     return NextResponse.json(

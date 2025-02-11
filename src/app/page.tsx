@@ -72,16 +72,16 @@ export default function Home() {
             Today's Puzzle
           </h1>
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {puzzle.description}
             </h2>
-            <pre className="bg-gray-200 p-4 rounded-md mb-4 overflow-x-auto">
+            <pre className="bg-gray-100 p-4 rounded-md mb-4 overflow-x-auto">
               <HighlightedText text={puzzle.sample} regexString={solution} />
             </pre>
 
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="text-gray-700 font-semibold mb-2">
+                <label className="text-gray-800 font-semibold mb-2">
                   Your Solution:
                   <input
                     type="text"
