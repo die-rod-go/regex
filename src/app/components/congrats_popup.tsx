@@ -3,9 +3,13 @@ import React, { useEffect } from "react";
 
 type CongratsPopupProps = {
   onClose: () => void;
+  onRandom: () => void;
 };
 
-export default function CongratsPopup({ onClose }: CongratsPopupProps) {
+export default function CongratsPopup({
+  onClose,
+  onRandom,
+}: CongratsPopupProps) {
   //    close popup when Escape key is pressed
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -26,7 +30,19 @@ export default function CongratsPopup({ onClose }: CongratsPopupProps) {
         >
           <XMarkIcon className="size-6" />
         </button>
-        <p>Good job! You solved the puzzle</p>
+        <p>Great job! You solved the puzzle.</p>
+        <p>
+          Want another challenge? Try a{" "}
+          <button
+            className="font-semibold"
+            onClick={() => {
+              onRandom();
+              onClose();
+            }}
+          >
+            random puzzle
+          </button>{" "}
+        </p>
       </div>
     </div>
   );

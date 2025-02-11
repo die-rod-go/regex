@@ -15,6 +15,7 @@ type Puzzle = {
   }[];
 };
 
+//  submit solution to puzzle
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

@@ -11,7 +11,6 @@ export default function Home() {
   const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<string>("");
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
-  const [showResults, setShowResults] = useState<boolean>(false);
 
   // fetch the daily puzzle
   useEffect(() => {
@@ -31,11 +30,30 @@ export default function Home() {
     fetchPuzzle();
   }, []);
 
+  function fetchRandomPuzzle() {
+    setResponse(null);
+    const fetchPuzzle = async () => {
+      try {
+        const res = await fetch("/api/puzzle/random");
+        if (!res.ok) {
+          throw new Error("Failed to fetch random puzzle.");
+        }
+        const data = await res.json();
+        setPuzzle(data);
+      } catch (error) {
+        if (error instanceof Error) setError(error.message);
+      }
+    };
+
+    fetchPuzzle();
+  }
+
   // handle the solution submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setResponse(null);
+    setSolution("");
 
     if (!puzzle) {
       setError("No puzzle available to submit a solution.");
@@ -118,6 +136,7 @@ export default function Home() {
                 onClose={() => {
                   setPopupVisible(false);
                 }}
+                onRandom={fetchRandomPuzzle}
               ></CongratsPopup>
             )}
           </div>

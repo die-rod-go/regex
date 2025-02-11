@@ -243,6 +243,33 @@ async function main() {
     },
   });
 
+  await prisma.dailyPuzzle.upsert({
+    where: { date: new Date("2025-02-12") },
+    update: {},
+    create: {
+      date: new Date("2025-02-11"),
+      puzzleId: puzzle11.id,
+    },
+  });
+
+  await prisma.dailyPuzzle.upsert({
+    where: { date: new Date("2025-02-13") },
+    update: {},
+    create: {
+      date: new Date("2025-02-11"),
+      puzzleId: puzzle2.id,
+    },
+  });
+
+  await prisma.dailyPuzzle.upsert({
+    where: { date: new Date("2025-02-14") },
+    update: {},
+    create: {
+      date: new Date("2025-02-11"),
+      puzzleId: puzzle12.id,
+    },
+  });
+
   console.log("Seeding completed.");
 }
 
