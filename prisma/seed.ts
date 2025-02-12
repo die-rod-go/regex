@@ -340,51 +340,51 @@ async function main() {
     },
   });
 
-  // Assign Daily Puzzles
-  await prisma.dailyPuzzle.upsert({
-    where: { date: new Date("2025-02-11") },
-    update: {},
-    create: {
-      date: new Date("2025-02-11"),
-      puzzleId: puzzle1.id,
-    },
-  });
+  // // Assign Daily Puzzles
+  // await prisma.dailyPuzzle.upsert({
+  //   where: { date: new Date("2025-02-11") },
+  //   update: {},
+  //   create: {
+  //     date: new Date("2025-02-11"),
+  //     puzzleId: puzzle1.id,
+  //   },
+  // });
 
-  await prisma.dailyPuzzle.upsert({
-    where: { date: new Date("2025-02-12") },
-    update: {},
-    create: {
-      date: new Date("2025-02-12"),
-      puzzleId: puzzle2.id,
-    },
-  });
+  // await prisma.dailyPuzzle.upsert({
+  //   where: { date: new Date("2025-02-12") },
+  //   update: {},
+  //   create: {
+  //     date: new Date("2025-02-12"),
+  //     puzzleId: puzzle2.id,
+  //   },
+  // });
 
-  await prisma.dailyPuzzle.upsert({
-    where: { date: new Date("2025-02-13") },
-    update: {},
-    create: {
-      date: new Date("2025-02-13"),
-      puzzleId: puzzle3.id,
-    },
-  });
+  // await prisma.dailyPuzzle.upsert({
+  //   where: { date: new Date("2025-02-13") },
+  //   update: {},
+  //   create: {
+  //     date: new Date("2025-02-13"),
+  //     puzzleId: puzzle3.id,
+  //   },
+  // });
 
-  await prisma.dailyPuzzle.upsert({
-    where: { date: new Date("2025-02-14") },
-    update: {},
-    create: {
-      date: new Date("2025-02-14"),
-      puzzleId: puzzle4.id,
-    },
-  });
+  // await prisma.dailyPuzzle.upsert({
+  //   where: { date: new Date("2025-02-14") },
+  //   update: {},
+  //   create: {
+  //     date: new Date("2025-02-14"),
+  //     puzzleId: puzzle4.id,
+  //   },
+  // });
 
-  await prisma.dailyPuzzle.upsert({
-    where: { date: new Date("2025-02-15") },
-    update: {},
-    create: {
-      date: new Date("2025-02-15"),
-      puzzleId: puzzle5.id,
-    },
-  });
+  // await prisma.dailyPuzzle.upsert({
+  //   where: { date: new Date("2025-02-15") },
+  //   update: {},
+  //   create: {
+  //     date: new Date("2025-02-15"),
+  //     puzzleId: puzzle5.id,
+  //   },
+  // });
 
   console.log("Seeding completed.");
 }
