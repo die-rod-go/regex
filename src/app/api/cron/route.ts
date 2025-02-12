@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 //  set daily puzzle
 export async function POST(req: NextRequest) {
   console.log("Assigning new Daily Puzzle");
-  //  get a random puzzle
+  //    get a random puzzle
   const randomPuzzle = await prisma.puzzle.findFirst({
     orderBy: { id: "asc" },
     take: 1,
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  //  check if the puzzle has already been used as the daily puzzle before
+  //    check if the puzzle has already been used as the daily puzzle before and return an error if it has
   const existingDailyPuzzle = await prisma.dailyPuzzle.findFirst({
     where: {
       puzzleId: randomPuzzle.id,
@@ -32,10 +32,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // If not used, create the daily puzzle entry
+  //    isolate date part of datetime
+  const today = new Date().toISOString().split("T")[0];
+  //    if not used, create the daily puzzle entry
   const newDailyPuzzle = await prisma.dailyPuzzle.create({
     data: {
-      date: new Date(),
+      date: new Date(today),
       puzzleId: randomPuzzle.id,
     },
   });
