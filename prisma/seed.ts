@@ -5,183 +5,289 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding database...");
 
-  // Matching Puzzles
+  // Match All URLs
   const puzzle1 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a regular expression to match all words that start with a vowel.",
-      sample: "apple orange banana umbrella igloo eagle cat dog",
-      testCases: {
-        create: [
-          {
-            targetString: "apple orange banana umbrella igloo eagle cat dog",
-            matches: ["apple", "orange", "umbrella", "igloo", "eagle"],
-          },
-          { targetString: "cat dog", matches: [] },
-          {
-            targetString: "elephant ostrich",
-            matches: ["elephant", "ostrich"],
-          },
-        ],
-      },
-      type: "match",
-    },
-  });
-
-  const puzzle2 = await prisma.puzzle.create({
-    data: {
-      description: "Write a regular expression to match all 4-letter words.",
-      sample: "This is a test code blue tree data",
-      testCases: {
-        create: [
-          {
-            targetString: "This is a test code blue tree data",
-            matches: ["test", "code", "blue", "tree", "data"],
-          },
-          { targetString: "I love cats.", matches: [] },
-        ],
-      },
-      type: "match",
-    },
-  });
-
-  const puzzle3 = await prisma.puzzle.create({
-    data: {
-      description: "Write a regular expression to match valid email addresses.",
-      sample: "test@example.com hello@world.net invalid-email@ address.com",
+        "Write a regular expression to match valid URLs (including `http`, `https`, and optional `www`).",
+      sample:
+        "https://example.com http://www.test.net www.google.com invalid-url",
       testCases: {
         create: [
           {
             targetString:
-              "test@example.com hello@world.net invalid-email@ address.com",
-            matches: ["test@example.com", "hello@world.net"],
+              "https://example.com http://www.test.net www.google.com invalid-url",
+            matches: [
+              "https://example.com",
+              "http://www.test.net",
+              "www.google.com",
+            ],
           },
-          { targetString: "invalid-email@", matches: [] },
-          { targetString: "user@domain.com", matches: ["user@domain.com"] },
+          {
+            targetString: "ftp://example.com http://invalid",
+            matches: [],
+          },
+          {
+            targetString: "https://sub.domain.co.uk/path?query=123",
+            matches: ["https://sub.domain.co.uk/path?query=123"],
+          },
+          {
+            targetString: "www.example.com",
+            matches: ["www.example.com"],
+          },
         ],
       },
       type: "match",
     },
   });
 
-  const puzzle4 = await prisma.puzzle.create({
+  // Match Dates in YYYY-MM-DD Format
+  const puzzle2 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a regular expression to match any word containing 'cat'.",
-      sample: "The cat caught the catastrophe in the catalog.",
+        "Write a regular expression to match dates in the format `YYYY-MM-DD`.",
+      sample: "2023-10-05 1999-12-31 2025-02-30 invalid-date 2023/10/05",
       testCases: {
         create: [
           {
-            targetString: "The cat caught the catastrophe in the catalog.",
-            matches: ["cat", "caught", "catastrophe", "catalog"],
+            targetString:
+              "2023-10-05 1999-12-31 2025-02-28 invalid-date 2023/10/05",
+            matches: ["2023-10-05", "1999-12-31", "2025-02-28"],
           },
-          { targetString: "dog", matches: [] },
+          {
+            targetString: "2023-13-01 2023-00-01 2023-01-32",
+            matches: [],
+          },
+          {
+            targetString: "0000-01-01 9999-12-31",
+            matches: ["0000-01-01", "9999-12-31"],
+          },
         ],
       },
       type: "match",
     },
   });
 
+  // Match Words with Double Letters
+  const puzzle3 = await prisma.puzzle.create({
+    data: {
+      description:
+        "Write a regular expression to match words that contain at least one pair of double letters (e.g., 'book' has 'oo').",
+      sample: "book success hello apple banana",
+      testCases: {
+        create: [
+          {
+            targetString: "book success hello apple banana",
+            matches: ["book", "success", "hello", "apple"],
+          },
+          {
+            targetString: "cat dog tree",
+            matches: [],
+          },
+          {
+            targetString: "committee address",
+            matches: ["committee", "address"],
+          },
+          {
+            targetString: "mississippi",
+            matches: ["mississippi"],
+          },
+        ],
+      },
+      type: "match",
+    },
+  });
+
+  // Match Valid IP Addresses
+  const puzzle4 = await prisma.puzzle.create({
+    data: {
+      description: "Write a regular expression to match valid IPv4 addresses.",
+      sample: "192.168.1.1 256.256.256.256 127.0.0.1 0.0.0.0",
+      testCases: {
+        create: [
+          {
+            targetString: "192.168.1.1 256.256.256.256 127.0.0.1 0.0.0.0",
+            matches: ["192.168.1.1", "127.0.0.1", "0.0.0.0"],
+          },
+          {
+            targetString: "999.999.999.999 1.2.3.4.5",
+            matches: [],
+          },
+          {
+            targetString: "10.0.0.1 255.255.255.255",
+            matches: ["10.0.0.1", "255.255.255.255"],
+          },
+        ],
+      },
+      type: "match",
+    },
+  });
+
+  // Match Words with Exactly 3 Vowels
   const puzzle5 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a regular expression to match all words containing digits.",
-      sample: "I have 2 apples, 10 oranges, and 3 bananas.",
+        "Write a regular expression to match words that contain exactly 3 vowels (a, e, i, o, u).",
+      sample: "beautiful hello universe python",
       testCases: {
         create: [
           {
-            targetString: "I have 2 apples, 10 oranges, and 3 bananas.",
-            matches: ["2", "10", "3"],
+            targetString: "beautiful hello universe python",
+            matches: ["beautiful", "universe"],
           },
-          { targetString: "apples oranges bananas", matches: [] },
+          {
+            targetString: "cat dog apple",
+            matches: [],
+          },
+          {
+            targetString: "education",
+            matches: ["education"],
+          },
+          {
+            targetString: "queueing",
+            matches: [],
+          },
         ],
       },
       type: "match",
     },
   });
 
+  // Match Valid Credit Card Numbers (16 Digits)
   const puzzle6 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a regular expression to match valid phone numbers in the format (123) 456-7890.",
-      sample: "(123) 456-7890 (987) 654-3210 123-456-7890",
+        "Write a regular expression to match 16-digit credit card numbers (groups of 4 digits separated by hyphens or spaces).",
+      sample:
+        "1234-5678-9012-3456 1234 5678 9012 3456 1234567890123456 invalid",
       testCases: {
         create: [
           {
-            targetString: "(123) 456-7890 (987) 654-3210 123-456-7890",
-            matches: ["(123) 456-7890", "(987) 654-3210"],
+            targetString:
+              "1234-5678-9012-3456 1234 5678 9012 3456 1234567890123456 invalid",
+            matches: ["1234-5678-9012-3456", "1234 5678 9012 3456"],
           },
-          { targetString: "123-456-7890", matches: [] },
+          {
+            targetString: "1234-5678-9012-345 123456789012345",
+            matches: [],
+          },
+          {
+            targetString: "0000-0000-0000-0000 9999-9999-9999-9999",
+            matches: ["0000-0000-0000-0000", "9999-9999-9999-9999"],
+          },
         ],
       },
       type: "match",
     },
   });
 
+  // Match Words with Alternating Vowels and Consonants
   const puzzle7 = await prisma.puzzle.create({
     data: {
-      description: "Write a regular expression to match hex color codes.",
-      sample: "#ff5733 #33cc99 #abc #123abc",
+      description:
+        "Write a regular expression to match words where vowels and consonants alternate (starting with either).",
+      sample: "apple banana cat dog elephant",
       testCases: {
         create: [
           {
-            targetString: "#ff5733 #33cc99 #abc #123abc",
-            matches: ["#ff5733", "#33cc99", "#123abc"],
+            targetString: "apple banana cat dog elephant",
+            matches: ["banana", "cat", "dog"],
           },
-          { targetString: "not a color", matches: [] },
+          {
+            targetString: "hello world",
+            matches: [],
+          },
+          {
+            targetString: "aesthetic",
+            matches: ["aesthetic"],
+          },
+          {
+            targetString: "rhythm",
+            matches: [],
+          },
         ],
       },
       type: "match",
     },
   });
 
+  // Match Valid Time in 24-Hour Format
   const puzzle8 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a regular expression to match strings that contain 'hello' at the start.",
-      sample: "hello world, hello again, hi there",
+        "Write a regular expression to match valid times in 24-hour format (e.g., `13:45`, `23:59`).",
+      sample: "13:45 25:00 23:59 00:00 12:60",
       testCases: {
         create: [
           {
-            targetString: "hello world, hello again, hi there",
-            matches: ["hello world", "hello again"],
+            targetString: "13:45 25:00 23:59 00:00 12:60",
+            matches: ["13:45", "23:59", "00:00"],
           },
-          { targetString: "hi there", matches: [] },
+          {
+            targetString: "24:00 12:99",
+            matches: [],
+          },
+          {
+            targetString: "01:01 19:19",
+            matches: ["01:01", "19:19"],
+          },
         ],
       },
       type: "match",
     },
   });
 
+  // Match Words with No Repeated Letters
   const puzzle9 = await prisma.puzzle.create({
     data: {
-      description: "Write a regular expression to match all 5-letter strings.",
-      sample: "apple grapes mango banana",
+      description:
+        "Write a regular expression to match words where no letter is repeated.",
+      sample: "apple banana cat dog elephant",
       testCases: {
         create: [
           {
-            targetString: "apple grapes mango banana",
-            matches: ["apple"],
+            targetString: "apple banana cat dog elephant",
+            matches: ["cat", "dog"],
           },
-          { targetString: "cat dog", matches: [] },
+          {
+            targetString: "hello world",
+            matches: [],
+          },
+          {
+            targetString: "unique",
+            matches: ["unique"],
+          },
+          {
+            targetString: "abcdef",
+            matches: ["abcdef"],
+          },
         ],
       },
       type: "match",
     },
   });
 
+  // Match Valid HTML Tags
   const puzzle10 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a regular expression to match words that end with 'ing'.",
-      sample: "I am running and jumping in the park.",
+        "Write a regular expression to match valid HTML tags (e.g., `<div>`, `<p class='text'>`).",
+      sample: "<div> <p class='text'> <img src='image.jpg' /> <invalid>",
       testCases: {
         create: [
           {
-            targetString: "I am running and jumping in the park.",
-            matches: ["running", "jumping"],
+            targetString:
+              "<div> <p class='text'> <img src='image.jpg' /> <invalid>",
+            matches: ["<div>", "<p class='text'>", "<img src='image.jpg' />"],
           },
-          { targetString: "cat dog", matches: [] },
+          {
+            targetString: "<> </> <a>",
+            matches: ["<a>"],
+          },
+          {
+            targetString: "<input type='text' />",
+            matches: ["<input type='text' />"],
+          },
         ],
       },
       type: "match",
@@ -192,8 +298,8 @@ async function main() {
   const puzzle11 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a string that will be matched by the following regular expression",
-      sample: `^(?=(.*\\d.*){3})[A-Za-z\\d!@#$%^&*()_+={}\\[\\]|\\\\:;"'<>,.?/-]{8,}$`,
+        "Write a string that will be matched by the following regular expression: At least 2 special characters.",
+      sample: "P@ssw0rd!@",
       type: "password",
     },
   });
@@ -201,8 +307,8 @@ async function main() {
   const puzzle12 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a string that will be matched by the following regular expression",
-      sample: `^[A-Z]{1}[a-z]{2,}$`,
+        "Write a string that will be matched by the following regular expression: Starts with a digit and ends with a letter.",
+      sample: "1passwordA",
       type: "password",
     },
   });
@@ -210,8 +316,8 @@ async function main() {
   const puzzle13 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a string that will be matched by the following regular expression",
-      sample: `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,}$`,
+        "Write a string that will be matched by the following regular expression: Contains exactly 3 digits.",
+      sample: "Pass123word",
       type: "password",
     },
   });
@@ -219,8 +325,8 @@ async function main() {
   const puzzle14 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a string that will be matched by the following regular expression",
-      sample: `^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z]).{6,}$`,
+        "Write a string that will be matched by the following regular expression: No repeated characters.",
+      sample: "Un1queP@ss",
       type: "password",
     },
   });
@@ -228,12 +334,13 @@ async function main() {
   const puzzle15 = await prisma.puzzle.create({
     data: {
       description:
-        "Write a string that will be matched by the following regular expression",
-      sample: `^(?=.*[A-Za-z])(?=.*[0-9]).{10,}$`,
+        "Write a string that will be matched by the following regular expression: Contains at least one uppercase and one lowercase letter.",
+      sample: "Passw0rd",
       type: "password",
     },
   });
 
+  // Assign Daily Puzzles
   await prisma.dailyPuzzle.upsert({
     where: { date: new Date("2025-02-11") },
     update: {},
@@ -248,7 +355,7 @@ async function main() {
     update: {},
     create: {
       date: new Date("2025-02-12"),
-      puzzleId: puzzle11.id,
+      puzzleId: puzzle2.id,
     },
   });
 
@@ -257,7 +364,7 @@ async function main() {
     update: {},
     create: {
       date: new Date("2025-02-13"),
-      puzzleId: puzzle2.id,
+      puzzleId: puzzle3.id,
     },
   });
 
@@ -266,7 +373,16 @@ async function main() {
     update: {},
     create: {
       date: new Date("2025-02-14"),
-      puzzleId: puzzle12.id,
+      puzzleId: puzzle4.id,
+    },
+  });
+
+  await prisma.dailyPuzzle.upsert({
+    where: { date: new Date("2025-02-15") },
+    update: {},
+    create: {
+      date: new Date("2025-02-15"),
+      puzzleId: puzzle5.id,
     },
   });
 
