@@ -131,7 +131,7 @@ export default function Home() {
               </button>
             </form>
 
-            {response && response?.results && (
+            {puzzle && puzzle.type === "match" && response && (
               <div className="mt-6">
                 <Results results={response.results} regexString={solution} />
               </div>
