@@ -4,13 +4,17 @@ import { useState, useEffect } from "react";
 import HighlightedText from "./components/highlighted_text";
 import Results from "./components/results";
 import CongratsPopup from "./components/congrats_popup";
+import ErrorPopup from "./components/error_popup";
 
 export default function Home() {
   const [puzzle, setPuzzle] = useState<any>(null);
   const [solution, setSolution] = useState<string>("");
   const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<string>("");
-  const [popupVisible, setPopupVisible] = useState<boolean>(false);
+  const [isCongratsPopupVisible, setIsCongratsPopupVisible] =
+    useState<boolean>(false);
+  const [isErrorPopupVisible, setIsErrorPopupVisible] =
+    useState<boolean>(false);
 
   // fetch the daily puzzle
   useEffect(() => {
@@ -79,16 +83,17 @@ export default function Home() {
         throw new Error(data.error || "Something went wrong");
       }
       setResponse(data);
-      //  show congratulations message if the user solved the puzzle
-      if (data.correct) setPopupVisible(true);
+      //  show corresponding popup depending on whether the user solved the puzzle
+      if (data.correct) setIsCongratsPopupVisible(true);
+      else setIsErrorPopupVisible(true);
     } catch (error) {
       if (error instanceof Error) setError(error.message);
+      setIsErrorPopupVisible(true);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 p-24">
-      {error && <p className="text-red-600 mb-4">{`Error: ${error}`}</p>}
       {/* if puzzle exists */}
       {puzzle ? (
         <>
@@ -101,7 +106,10 @@ export default function Home() {
           </h1>
           <div
             className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full transition-all duration-300 ease-in-out"
-            style={{ maxHeight: popupVisible || response ? "1000px" : "500px" }}
+            style={{
+              maxHeight:
+                isCongratsPopupVisible || response ? "1000px" : "500px",
+            }}
           >
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {puzzle.description}
@@ -136,13 +144,21 @@ export default function Home() {
                 <Results results={response.results} regexString={solution} />
               </div>
             )}
-            {popupVisible && (
+            {isCongratsPopupVisible && (
               <CongratsPopup
                 onClose={() => {
-                  setPopupVisible(false);
+                  setIsCongratsPopupVisible(false);
                 }}
                 onRandom={fetchRandomPuzzle}
               ></CongratsPopup>
+            )}
+            {isErrorPopupVisible && (
+              <ErrorPopup
+                onClose={() => {
+                  setIsErrorPopupVisible(false);
+                }}
+                error={error}
+              ></ErrorPopup>
             )}
           </div>
         </>
