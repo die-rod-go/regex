@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 
 //  set daily puzzle
 export async function POST(req: NextRequest) {
+  console.log("Assigning new Daily Puzzle");
   //  get a random puzzle
   const randomPuzzle = await prisma.puzzle.findFirst({
     orderBy: { id: "asc" },
