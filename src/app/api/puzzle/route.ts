@@ -102,6 +102,6 @@ function handlePasswordPuzzle(puzzle: Puzzle, solution: string) {
   const correct = regex.test(solution);
 
   return NextResponse.json({
-    correct,
+    correct: correct,
   });
 }
