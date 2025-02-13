@@ -5,6 +5,7 @@ import HighlightedText from "./components/highlighted_text";
 import Results from "./components/results";
 import CongratsPopup from "./components/congrats_popup";
 import ErrorPopup from "./components/error_popup";
+import CheatSheet from "./components/cheatsheet";
 
 export default function Home() {
   const [puzzle, setPuzzle] = useState<any>(null);
@@ -160,6 +161,7 @@ export default function Home() {
                 error={error}
               ></ErrorPopup>
             )}
+            {/* <CheatSheet></CheatSheet> */}
           </div>
         </>
       ) : (
