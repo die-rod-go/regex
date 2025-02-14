@@ -48,7 +48,7 @@ export default function RootLayout({
         <button
           onClick={toggleCheatSheet}
           className={`w-20 h-20 fixed top-1/2 transform -translate-y-1/2 p-3 z-50  text-blue-500 transition-all duration-300 ease-in-out ${
-            isCheatSheetOpen ? "left-[31%]" : "left-0"
+            isCheatSheetOpen ? "left-[30%]" : "left-0"
           }`}
         >
           {isCheatSheetOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
