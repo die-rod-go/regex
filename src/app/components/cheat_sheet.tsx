@@ -51,8 +51,8 @@ export default function CheatSheet() {
           </div>
         </div>
       </div>
-      <h2 className="font-semibold">Groups and Lookaround</h2>
       <div>
+        <h2 className="font-semibold">Groups and Lookaround</h2>
         <div className="font-mono flex space-x-6 justify-start">
           <div className="w-1/4">
             <p>(abc)</p>
