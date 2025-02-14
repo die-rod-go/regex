@@ -36,11 +36,15 @@ export async function POST(req: NextRequest) {
   const today = new Date().toISOString().split("T")[0];
 
   //  delete daily puzzle if one already exists for today (makes it easy to manually reseed puzzle)
-  const deletedDaily = await prisma.dailyPuzzle.delete({
-    where: {
-      date: new Date(today),
-    },
-  });
+  try {
+    const deletedDaily = await prisma.dailyPuzzle.delete({
+      where: {
+        date: new Date(today),
+      },
+    });
+  } catch (error) {
+    //  continue
+  }
 
   //  create the daily puzzle entry
   const newDailyPuzzle = await prisma.dailyPuzzle.create({
