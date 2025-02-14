@@ -73,11 +73,11 @@ async function main() {
           },
           {
             targetString: "cat dog tree",
-            matches: [],
+            matches: ["tree"],
           },
           {
             targetString: "The committee addressed the issue.",
-            matches: ["committee", "addressed"],
+            matches: ["committee", "addressed", "issue"],
           },
         ],
       },
@@ -129,7 +129,7 @@ async function main() {
           },
           {
             targetString: "Education is important.",
-            matches: ["Education"],
+            matches: ["Education", "important"],
           },
         ],
       },
@@ -181,7 +181,7 @@ async function main() {
           },
           {
             targetString: "aesthetic rhythm",
-            matches: ["aesthetic"],
+            matches: [""],
           },
         ],
       },

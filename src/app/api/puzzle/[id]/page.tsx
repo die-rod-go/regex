@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import HighlightedText from "./components/highlighted_text";
-import Results from "./components/results";
-import CongratsPopup from "./components/congrats_popup";
-import ErrorPopup from "./components/error_popup";
-import CheatSheet from "./components/cheat_sheet";
+import HighlightedText from "@/app/components/highlighted_text";
+import Results from "@/app/components/results";
+import CongratsPopup from "@/app/components/congrats_popup";
+import ErrorPopup from "@/app/components/error_popup";
+import CheatSheet from "@/app/components/cheat_sheet";
 
 export default function Home() {
   const [puzzle, setPuzzle] = useState<any>(null);
