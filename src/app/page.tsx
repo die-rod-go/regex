@@ -161,7 +161,6 @@ export default function Home() {
                 error={error}
               ></ErrorPopup>
             )}
-            {/* <CheatSheet></CheatSheet> */}
           </div>
         </>
       ) : (
