@@ -9,11 +9,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#1E1E1E",
-        primary_text: "#E0E0E0",
-        secondary_text: "#A0CFFF",
-        accent: "#007BFF",
-        input: "#252525",
+        "bg-primary": "#1F2937", // the page background
+        "bg-secondary": "#374151", // cheat sheet background
+        "bg-card": "#2A3546", // slightly lighter card background for contrast
+        "bg-input": "#374151", // input background
+        "bg-sample": "#374151", // background of the puzzle text area
+        "text-primary": "#F9FAFB", // general body text (puzzle description)
+        "text-secondary": "#D1D5DB", // puzzle sample text
+        "text-muted": "#D1D5DB", // cheat sheet text
+        "border-input": "#4B5563", // input border
+        "border-card": "#374151", // card border
+        "hover-accent": "#3B82F6", // accent color on hover
+        "border-accent": "#60A5FA", // input border on focus
+        accent: "#60A5FA", // buttons/arrows/heading
       },
     },
   },

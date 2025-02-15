@@ -34,10 +34,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className="flex">
+      <body className="flex bg-bg-primary">
         {/* sidebar / CheatSheet */}
         <div
-          className={`transition-all duration-300 ease-in-out fixed top-0 left-0 h-full bg-gray-800 text-white p-4 ${
+          className={`transition-all duration-300 ease-in-out fixed top-0 left-0 h-full bg-bg-secondary text-text-muted p-4 ${
             isCheatSheetOpen ? "w-[30%]" : "w-0 opacity-0"
           } overflow-hidden`}
         >
@@ -47,14 +47,14 @@ export default function RootLayout({
 
         <button
           onClick={toggleCheatSheet}
-          className={`w-20 h-20 fixed top-1/2 transform -translate-y-1/2 p-3 z-50  text-blue-500 transition-all duration-300 ease-in-out ${
+          className={`w-20 h-20 fixed top-1/2 transform -translate-y-1/2 p-3 z-50  text-accent transition-all duration-300 ease-in-out ${
             isCheatSheetOpen ? "left-[30%]" : "left-0"
           }`}
         >
           {isCheatSheetOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </button>
 
-        {/* main Content */}
+        {/* main content */}
         <div
           className={`transition-all duration-300 ease-in-out ${
             isCheatSheetOpen ? "ml-[30%]" : "ml-0"

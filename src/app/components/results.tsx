@@ -29,16 +29,16 @@ export default function Results({ results, regexString }: ResultsProps) {
   return (
     <div className="h-56 flex flex-col">
       {/* header */}
-      <h2 className="text-xl font-semibold text-gray-800 mb-2">
+      <h2 className="text-lg font-semibold text-text-secondary mb-2">
         Passed {numCorrect}/{results.length}
       </h2>
       {/* navigation Controls */}
       <div className="flex items-center space-x-2 mb-4">
         <button
           onClick={goToPreviousPage}
-          className="p-1 rounded-full hover:bg-gray-200"
+          className="p-1 rounded-full hover:bg-bg-sample"
         >
-          <ChevronLeftIcon className="w-6 h-6 text-gray-600" />
+          <ChevronLeftIcon className="w-6 h-6 text-text-secondary" />
         </button>
         {results.map((result, index) => (
           <button
@@ -64,15 +64,15 @@ export default function Results({ results, regexString }: ResultsProps) {
         ))}
         <button
           onClick={goToNextPage}
-          className="p-1 rounded-full hover:bg-gray-200"
+          className="p-1 rounded-full hover:bg-bg-sample"
         >
-          <ChevronRightIcon className="w-6 h-6 text-gray-600" />
+          <ChevronRightIcon className="w-6 h-6 text-text-secondary" />
         </button>
       </div>
       {/* result Display Section */}
-      <div className="flex space-x-4 h-64 overflow-hidden">
+      <div className="flex space-x-4 h-64 overflow-hidden text-text-secondary">
         {/* test Case Section */}
-        <div className="p-4 rounded-lg bg-gray-100 w-1/2 overflow-y-auto">
+        <div className="p-4 rounded-lg bg-bg-sample w-1/2 overflow-y-auto">
           <h3 className="font-semibold text-sm">Test Case</h3>
           <HighlightedText
             className="font-mono"
@@ -81,7 +81,7 @@ export default function Results({ results, regexString }: ResultsProps) {
           />
         </div>
         {/* expected Matches Section */}
-        <div className="p-4 rounded-lg bg-gray-100 w-1/4 overflow-y-auto">
+        <div className="p-4 rounded-lg bg-bg-sample w-1/4 overflow-y-auto">
           <h3 className="font-semibold text-sm">Expected Matches</h3>
           {results[page].expectedMatches.map((match, index) => (
             <div className="font-mono" key={index}>
@@ -90,7 +90,7 @@ export default function Results({ results, regexString }: ResultsProps) {
           ))}
         </div>
         {/* Actual Matches Section */}
-        <div className="p-4 rounded-lg bg-gray-100 w-1/4 overflow-y-auto">
+        <div className="p-4 rounded-lg bg-bg-sample w-1/4 overflow-y-auto">
           <h3 className="font-semibold text-sm">Actual Matches</h3>
           {results[page].actualMatches.map((match, index) => (
             <div className="font-mono" key={index}>

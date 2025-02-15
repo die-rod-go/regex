@@ -6,6 +6,7 @@ import Results from "./components/results";
 import CongratsPopup from "./components/congrats_popup";
 import ErrorPopup from "./components/error_popup";
 import CheatSheet from "./components/cheat_sheet";
+import Spinner from "./components/spinner";
 
 export default function Home() {
   const [puzzle, setPuzzle] = useState<any>(null);
@@ -94,11 +95,11 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-24">
+    <div className="min-h-screen flex flex-col items-center bg-bg-primary p-24">
       {/* if puzzle exists */}
       {puzzle ? (
         <>
-          <h1 className="text-3xl font-bold text-blue-600 mb-6">
+          <h1 className="text-3xl font-bold text-accent mb-6">
             {puzzle.browseType === "daily"
               ? `Today's Puzzle`
               : puzzle.browseType === "random"
@@ -106,35 +107,35 @@ export default function Home() {
               : "Regexpert"}
           </h1>
           <div
-            className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full transition-all duration-300 ease-in-out"
+            className="bg-bg-card p-6 rounded-lg shadow-lg max-w-3xl w-full transition-all duration-300 ease-in-out"
             style={{
               maxHeight:
                 isCongratsPopupVisible || response ? "1000px" : "500px",
             }}
           >
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl font-semibold text-text-primary mb-2">
               {puzzle.description}
             </h2>
-            <pre className="bg-gray-100 p-4 rounded-md mb-4 overflow-x-auto">
+            <pre className="bg-bg-sample p-4 rounded-md mb-4 overflow-x-auto text-text-secondary">
               <HighlightedText text={puzzle.sample} regexString={solution} />
             </pre>
 
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="text-gray-800 font-semibold mb-2">
+                <label className="text-text-secondary font-semibold mb-2 text-lg">
                   Your Solution:
                   <input
                     type="text"
                     value={solution}
                     onChange={(e) => setSolution(e.target.value)}
-                    className="mt-2 p-2 border-2 border-gray-300 font-mono font-normal rounded-md w-full focus:outline-blue-500"
+                    className="mt-2 p-2 border-2 bg-bg-input border-bg-card font-mono font-normal rounded-md w-full"
                     required
                   />
                 </label>
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
+                className="w-full bg-accent text-white p-2 rounded-md hover:bg-hover-accent transition duration-200"
               >
                 Submit
               </button>
@@ -164,7 +165,12 @@ export default function Home() {
           </div>
         </>
       ) : (
-        <p className="text-gray-600 mt-60">Loading puzzle...</p>
+        <div>
+          <p className="text-text-muted mt-60 text-xl animate-pulse">
+            Loading puzzle...
+          </p>
+          {/* <Spinner /> */}
+        </div>
       )}
     </div>
   );
