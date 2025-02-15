@@ -10,7 +10,7 @@ type HighlightedTextProps = {
 function HighlightedText({
   text,
   regexString,
-  highlightClass = "bg-yellow-200",
+  highlightClass = "bg-accent",
   className = "",
 }: HighlightedTextProps) {
   let regex;
@@ -42,7 +42,10 @@ function HighlightedText({
 
     //  add the highlighted match
     result.push(
-      <span key={`match-${index}`} className={highlightClass}>
+      <span
+        key={`match-${index}`}
+        className={`${highlightClass} text-text-primary`}
+      >
         {matchText}
       </span>
     );
