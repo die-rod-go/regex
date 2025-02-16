@@ -7,6 +7,7 @@ import CongratsPopup from "../../components/congrats_popup";
 import ErrorPopup from "../../components/error_popup";
 import { getPuzzleById, getRandomPuzzle } from "@/app/lib/puzzles";
 import { useRouter } from "next/navigation";
+import { ArrowPathIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 
 export default function PuzzlePage({
   params,
@@ -85,22 +86,18 @@ export default function PuzzlePage({
   };
 
   return (
-    <div className="h-screen flex flex-col items-center bg-bg-primary p-24">
+    <div className="h-screen flex flex-col items-center bg-bg-primary p-28">
       {/* if puzzle exists */}
       {puzzle ? (
         <>
-          <h1 className="text-3xl font-bold text-accent mb-6">
-            {puzzle.browseType === "daily"
-              ? `Today's Puzzle`
-              : puzzle.browseType === "random"
-              ? "Random Puzzle"
-              : "Regexpert"}
-          </h1>
+          <h1 className="text-3xl font-bold text-accent mb-6">Regexpert</h1>
           <div
             className="bg-bg-card p-6 rounded-lg shadow-lg max-w-3xl w-full transition-all duration-300 ease-in-out"
             style={{
               maxHeight:
-                isCongratsPopupVisible || response ? "1000px" : "500px",
+                isCongratsPopupVisible || isErrorPopupVisible || response
+                  ? "1000px"
+                  : "500px",
             }}
           >
             <h2 className="text-xl font-semibold text-text-primary mb-2">
@@ -118,14 +115,14 @@ export default function PuzzlePage({
                     type="text"
                     value={solution}
                     onChange={(e) => setSolution(e.target.value)}
-                    className="mt-2 p-2 border-2 bg-bg-input border-bg-card font-mono font-normal rounded-md w-full"
+                    className="mt-2 p-2 bg-bg-input font-mono font-normal rounded-md w-full border-2 border-bg-input outline-none focus:outline-accent"
                     required
                   />
                 </label>
               </div>
               <button
                 type="submit"
-                className="w-full bg-accent text-white p-2 rounded-md hover:bg-hover-accent transition duration-200"
+                className="w-full bg-accent text-white p-2 rounded-md hover:bg-hover-accent transition duration-200 outline-none focus:outline-accent"
               >
                 Submit
               </button>
@@ -161,6 +158,14 @@ export default function PuzzlePage({
           </p>
         </div>
       )}
+      {/* user submission redirect button */}
+      <button
+        onClick={() => router.push("/puzzle/submission")}
+        className="fixed bottom-8 right-8 text-text-secondary rounded-md py-2 px-4 hover:bg-bg-input transition-colors outline-none focus:outline-accent flex items-center justify-center gap-2"
+      >
+        <PencilSquareIcon className="w-6 h-6" />
+        Submit Your Own Puzzle
+      </button>
     </div>
   );
 }

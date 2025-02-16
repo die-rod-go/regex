@@ -36,7 +36,7 @@ export default function Results({ results, regexString }: ResultsProps) {
       <div className="flex items-center space-x-2 mb-4">
         <button
           onClick={goToPreviousPage}
-          className="p-1 rounded-full hover:bg-bg-sample transition-all duration-300 ease-in-out "
+          className="p-1 rounded-full hover:bg-bg-sample transition-all duration-300 ease-in-out outline-none"
         >
           <ChevronLeftIcon className="w-6 h-6 text-text-secondary" />
         </button>
@@ -64,7 +64,7 @@ export default function Results({ results, regexString }: ResultsProps) {
         ))}
         <button
           onClick={goToNextPage}
-          className="p-1 rounded-full hover:bg-bg-sample transition-all duration-300 ease-in-out "
+          className="p-1 rounded-full hover:bg-bg-sample transition-all duration-300 ease-in-out outline-none"
         >
           <ChevronRightIcon className="w-6 h-6 text-text-secondary" />
         </button>
