@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import { PlusIcon } from "@heroicons/react/16/solid";
 
 export default function SubmissionPage() {
   const router = useRouter();
@@ -88,7 +89,7 @@ export default function SubmissionPage() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-screen flex flex-col items-center bg-bg-primary p-16"
+      className="min-h-screen flex flex-col items-center bg-bg-primary pt-20 pb-20"
     >
       <h1 className="text-3xl font-bold text-accent mb-6">
         Submit Your Own Puzzle
@@ -196,7 +197,7 @@ export default function SubmissionPage() {
                     onChange={(e) =>
                       handleTestCaseChange(index, "matches", e.target.value)
                     }
-                    placeholder="Expected Matches (comma-separated)"
+                    placeholder="Expected Matches (csv)"
                     className="flex-2 p-2 rounded border-border focus:ring-accent bg-bg-input text-text-primary outline-none focus:outline-accent"
                   />
 
@@ -206,9 +207,9 @@ export default function SubmissionPage() {
                       <button
                         type="button"
                         onClick={() => removeTestCase(index)}
-                        className="p-1 w-6 h-6 rounded-full bg-red-500 text-white flex justify-center items-center hover:bg-red-600 transition-colors outline-none focus:outline-accent"
+                        className="p-1 w-6 h-6 rounded-full bg-red-500 text-text-primary flex justify-center items-center hover:bg-red-600 transition-colors outline-none focus:outline-accent"
                       >
-                        <XMarkIcon className="w-12 h-12" />
+                        <XMarkIcon className="w-6 h-6" />
                       </button>
                     </div>
                   )}
@@ -219,9 +220,10 @@ export default function SubmissionPage() {
               <button
                 type="button"
                 onClick={addTestCase}
-                className="bg-accent text-white rounded-md py-2 px-4 hover:bg-hover-accent transition-colors outline-none focus:outline-accent"
+                className="text-text-primary rounded-md py-2 px-4 hover:bg-bg-input transition-colors outline-none focus:outline-accent flex items-center gap-2"
               >
                 Add Test Case
+                <PlusIcon className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -229,7 +231,7 @@ export default function SubmissionPage() {
 
         <button
           type="submit"
-          className="w-full p-2 bg-accent text-white rounded-md hover:bg-hover-accent transition-colors outline-none focus:outline-accent"
+          className="w-full p-2 bg-accent text-text-primary rounded-md hover:bg-hover-accent transition-colors outline-none focus:outline-accent"
         >
           Submit Puzzle
         </button>
