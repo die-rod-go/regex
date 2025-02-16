@@ -3,9 +3,7 @@ import React from "react";
 export default function CheatSheet() {
   return (
     <div className="h-4/5 text-[clamp(10px,1vw,3rem)] flex flex-col justify-between">
-      <h2 className="font-bold text-lg underline w-full text-center">
-        Cheat Sheet
-      </h2>
+      <h2 className="font-bold text-lg w-full text-center">Cheat Sheet</h2>
       {/* character classes */}
       <div>
         <h2 className="font-semibold">Character classes</h2>

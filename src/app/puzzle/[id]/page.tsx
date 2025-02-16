@@ -155,11 +155,10 @@ export default function PuzzlePage({
           </div>
         </>
       ) : (
-        <div>
-          <p className="text-text-muted mt-60 text-xl animate-pulse">
+        <div className="flex flex-col items-center justify-center h-screen">
+          <p className="text-text-muted  text-xl animate-pulse">
             Loading puzzle...
           </p>
-          {/* <Spinner /> */}
         </div>
       )}
     </div>
