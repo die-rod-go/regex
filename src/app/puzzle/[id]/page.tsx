@@ -86,7 +86,7 @@ export default function PuzzlePage({
   };
 
   return (
-    <div className="h-screen flex flex-col items-center bg-bg-primary p-28">
+    <div className="min-h-screen flex flex-col items-center bg-bg-primary pt-20 pb-20">
       {/* if puzzle exists */}
       {puzzle ? (
         <>
@@ -158,14 +158,6 @@ export default function PuzzlePage({
           </p>
         </div>
       )}
-      {/* user submission redirect button */}
-      <button
-        onClick={() => router.push("/puzzle/submission")}
-        className="fixed bottom-8 right-8 text-text-secondary rounded-md py-2 px-4 hover:bg-bg-input transition-colors outline-none focus:outline-accent flex items-center justify-center gap-2"
-      >
-        <PencilSquareIcon className="w-6 h-6" />
-        Submit Your Own Puzzle
-      </button>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   ArrowPathIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/solid";
 import { getRandomPuzzle } from "./lib/puzzles";
 import { useRouter } from "next/navigation";
@@ -50,16 +51,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex bg-bg-primary">
-        {/* random puzzle button */}
-        <button
-          onClick={fetchRandomPuzzle}
-          className={`m-2 fixed top-8 transition-all duration-300 ease-in-out text-text-secondary rounded-md py-2 px-4 hover:bg-bg-input outline-none focus:outline-accent flex items-center justify-center gap-2 ${
-            isCheatSheetOpen ? "left-[30%]" : "left-8"
-          }`}
+        <div
+          className={`flex flex-col gap-2 m-2 fixed top-8 transition-all duration-300 ease-in-out items-start
+          ${isCheatSheetOpen ? "left-[30%]" : "left-8"}`}
         >
-          <ArrowPathIcon className="w-6 h-6" />
-          Random Puzzle
-        </button>
+          {/* random puzzle button */}
+          <button
+            onClick={fetchRandomPuzzle}
+            className="p-2 transition-all duration-300 ease-in-out text-text-secondary rounded-md hover:bg-bg-input outline-none focus:outline-accent flex items-center justify-center gap-2"
+          >
+            <ArrowPathIcon className="w-6 h-6" />
+            Random Puzzle
+          </button>
+
+          {/* user submission redirect button */}
+          <button
+            onClick={() => router.push("/puzzle/submission")}
+            className="p-2 transition-all duration-300 ease-in-out text-text-secondary rounded-md  hover:bg-bg-input outline-none focus:outline-accent flex items-center justify-center gap-2"
+          >
+            <PencilSquareIcon className="w-6 h-6" />
+            Submit Your Own
+          </button>
+        </div>
         {/* sidebar / CheatSheet */}
         <div
           className={`transition-all duration-300 ease-in-out fixed top-0 left-0 h-full bg-bg-secondary text-text-muted p-4 ${
