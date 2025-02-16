@@ -1,14 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import HighlightedText from "./components/highlighted_text";
-import Results from "./components/results";
-import CongratsPopup from "./components/congrats_popup";
-import ErrorPopup from "./components/error_popup";
-import CheatSheet from "./components/cheat_sheet";
-import Spinner from "./components/spinner";
+import { useState, useEffect, use } from "react";
+import HighlightedText from "../../components/highlighted_text";
+import Results from "../../components/results";
+import CongratsPopup from "../../components/congrats_popup";
+import ErrorPopup from "../../components/error_popup";
+import CheatSheet from "../../components/cheat_sheet";
+import Spinner from "../../components/spinner";
 
-export default function Home() {
+export default function Page({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params); // Unwrap the promise
+  const id = resolvedParams.id;
+
   const [puzzle, setPuzzle] = useState<any>(null);
   const [solution, setSolution] = useState<string>("");
   const [response, setResponse] = useState<any>(null);
@@ -18,13 +21,19 @@ export default function Home() {
   const [isErrorPopupVisible, setIsErrorPopupVisible] =
     useState<boolean>(false);
 
-  // fetch the daily puzzle
+  // fetch the puzzle
   useEffect(() => {
     const fetchPuzzle = async () => {
       try {
-        const res = await fetch("/api/daily-puzzle");
+        // Get the browse type from the URL search params
+        const searchParams = new URLSearchParams(window.location.search);
+        const type = searchParams.get("type") || "direct";
+
+        const res = await fetch(
+          `/api/puzzle?${id ? `id=${id}` : ""}&type=${type}`
+        );
         if (!res.ok) {
-          throw new Error("Failed to fetch the daily puzzle.");
+          throw new Error("Failed to fetch puzzle.");
         }
         const data = await res.json();
         setPuzzle(data);
@@ -37,23 +46,7 @@ export default function Home() {
   }, []);
 
   function fetchRandomPuzzle() {
-    setResponse(null);
-    setSolution("");
-    setPuzzle(null);
-    const fetchPuzzle = async () => {
-      try {
-        const res = await fetch("/api/puzzle/random");
-        if (!res.ok) {
-          throw new Error("Failed to fetch random puzzle.");
-        }
-        const data = await res.json();
-        setPuzzle(data);
-      } catch (error) {
-        if (error instanceof Error) setError(error.message);
-      }
-    };
-
-    fetchPuzzle();
+    window.location.href = `/puzzle/random?type=random`;
   }
 
   // handle the solution submission
@@ -165,11 +158,8 @@ export default function Home() {
           </div>
         </>
       ) : (
-        <div>
-          <p className="text-text-muted mt-60 text-xl animate-pulse">
-            Loading puzzle...
-          </p>
-          {/* <Spinner /> */}
+        <div className="flex justify-center items-center h-screen animate-pulse text-text-secondary">
+          <p>Loading puzzle...</p>
         </div>
       )}
     </div>
