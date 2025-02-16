@@ -19,11 +19,29 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // route through [id] handler
-  const response = await getPuzzleById(req, {
-    params: Promise.resolve({ id: dailyPuzzleEntry.puzzleId }),
-  });
-  const puzzleData = await response.json();
+  try {
+    // route through [id] handler
+    const response = await getPuzzleById(req, {
+      params: Promise.resolve({ id: dailyPuzzleEntry.puzzleId }),
+    });
 
-  return Response.json({ browseType: "daily", ...puzzleData });
+    if (!response.ok) {
+      // If the puzzle ID handler returned an error, forward it
+      return response;
+    }
+
+    const puzzleData = await response.json();
+
+    if (!puzzleData) {
+      return Response.json(
+        { error: "Failed to load puzzle data" },
+        { status: 500 }
+      );
+    }
+
+    return Response.json({ browseType: "daily", ...puzzleData });
+  } catch (error) {
+    console.error("Error fetching puzzle:", error);
+    return Response.json({ error: "Failed to load puzzle" }, { status: 500 });
+  }
 }

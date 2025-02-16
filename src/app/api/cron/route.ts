@@ -11,6 +11,8 @@ export async function POST(req: NextRequest) {
     skip: Math.floor(Math.random() * (await prisma.puzzle.count())), // skip a random number of records
   });
 
+  console.log("Random puzzle found:", randomPuzzle);
+
   if (!randomPuzzle) {
     return Response.json(
       { error: "No puzzles found in the database." },
@@ -43,7 +45,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    //  continue
+    console.log("No daily puzzle found for today");
   }
 
   //  create the daily puzzle entry
@@ -53,6 +55,8 @@ export async function POST(req: NextRequest) {
       puzzleId: randomPuzzle.id,
     },
   });
+
+  console.log("New daily puzzle created:", newDailyPuzzle);
 
   return Response.json(newDailyPuzzle);
 }
