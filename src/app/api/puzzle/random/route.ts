@@ -1,21 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/app/lib/db";
+import { GET as getPuzzleById } from "../[id]/route";
 
 export async function GET(req: NextRequest) {
-  //    get a random puzzle
-  const puzzle = await prisma.puzzle.findFirst({
-    orderBy: { id: "asc" },
+  // get total count of puzzles
+  const puzzleCount = await prisma.puzzle.count();
+
+  // get a random puzzle id
+  const randomPuzzle = await prisma.puzzle.findFirst({
+    select: { id: true },
     take: 1,
-    skip: Math.floor(Math.random() * (await prisma.puzzle.count())), // skip a random number of records
+    skip: Math.floor(Math.random() * puzzleCount),
   });
 
-  //    if no puzzles exist
-  if (!puzzle) {
+  // if no puzzles exist
+  if (!randomPuzzle) {
     return Response.json(
       { error: "No puzzles found in the database." },
       { status: 404 }
     );
   }
 
-  return Response.json({ browseType: "random", ...puzzle });
+  // route through [id] handler
+  const response = await getPuzzleById(req, {
+    params: Promise.resolve({ id: randomPuzzle.id }),
+  });
+  const puzzleData = await response.json();
+
+  return Response.json({ browseType: "random", ...puzzleData });
 }

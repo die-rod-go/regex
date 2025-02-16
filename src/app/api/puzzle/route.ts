@@ -91,7 +91,10 @@ function handleMatchPuzzle(puzzle: Puzzle, solution: string) {
 function handlePasswordPuzzle(puzzle: Puzzle, solution: string) {
   let regex;
   try {
-    regex = new RegExp(puzzle.sample);
+    const pattern = puzzle.sample
+      .replace(/^\//, "") // Remove leading slash
+      .replace(/\/$/, ""); // Remove trailing slash
+    regex = new RegExp(pattern);
   } catch (error) {
     return NextResponse.json(
       { error: "Error with puzzle. Contact Diego" },

@@ -181,7 +181,7 @@ async function main() {
           },
           {
             targetString: "aesthetic rhythm",
-            matches: [""],
+            matches: [],
           },
         ],
       },
@@ -233,7 +233,7 @@ async function main() {
           },
           {
             targetString: "unique abcdef",
-            matches: ["unique", "abcdef"],
+            matches: ["abcdef"],
           },
         ],
       },

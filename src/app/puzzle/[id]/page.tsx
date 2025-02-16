@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import HighlightedText from "../../components/highlighted_text";
 import Results from "../../components/results";
 import CongratsPopup from "../../components/congrats_popup";
 import ErrorPopup from "../../components/error_popup";
-import CheatSheet from "../../components/cheat_sheet";
-import Spinner from "../../components/spinner";
+import { getPuzzleById, getRandomPuzzle } from "@/app/lib/puzzles";
+import { useRouter } from "next/navigation";
 
-export default function Page({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params); // Unwrap the promise
-  const id = resolvedParams.id;
-
+export default function PuzzlePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = React.use(params);
   const [puzzle, setPuzzle] = useState<any>(null);
   const [solution, setSolution] = useState<string>("");
   const [response, setResponse] = useState<any>(null);
@@ -20,33 +22,28 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     useState<boolean>(false);
   const [isErrorPopupVisible, setIsErrorPopupVisible] =
     useState<boolean>(false);
+  const router = useRouter();
 
   // fetch the puzzle
   useEffect(() => {
     const fetchPuzzle = async () => {
       try {
-        // Get the browse type from the URL search params
-        const searchParams = new URLSearchParams(window.location.search);
-        const type = searchParams.get("type") || "direct";
-
-        const res = await fetch(
-          `/api/puzzle?${id ? `id=${id}` : ""}&type=${type}`
-        );
-        if (!res.ok) {
-          throw new Error("Failed to fetch puzzle.");
-        }
-        const data = await res.json();
-        setPuzzle(data);
+        const puzzle = await getPuzzleById(id);
+        setPuzzle(puzzle);
       } catch (error) {
         if (error instanceof Error) setError(error.message);
       }
     };
 
     fetchPuzzle();
-  }, []);
+  }, [id]);
 
   function fetchRandomPuzzle() {
-    window.location.href = `/puzzle/random?type=random`;
+    const loadPuzzle = async () => {
+      const puzzle = await getRandomPuzzle();
+      router.push(`/puzzle/${puzzle.id}`);
+    };
+    loadPuzzle();
   }
 
   // handle the solution submission
@@ -158,8 +155,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center h-screen animate-pulse text-text-secondary">
-          <p>Loading puzzle...</p>
+        <div>
+          <p className="text-text-muted mt-60 text-xl animate-pulse">
+            Loading puzzle...
+          </p>
+          {/* <Spinner /> */}
         </div>
       )}
     </div>
