@@ -122,7 +122,7 @@ export default function PuzzlePage({
               </div>
               <button
                 type="submit"
-                className="w-full bg-accent text-white p-2 rounded-md hover:bg-hover-accent transition duration-200 outline-none focus:outline-accent"
+                className="w-full bg-accent text-text-primary p-2 rounded-md hover:bg-hover-accent transition duration-200 outline-none focus:outline-accent"
               >
                 Submit
               </button>
@@ -152,7 +152,7 @@ export default function PuzzlePage({
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center h-screen">
+        <div className="flex flex-col items-center bg-bg-primary pt-36">
           <p className="text-text-muted  text-xl animate-pulse">
             Loading puzzle...
           </p>
